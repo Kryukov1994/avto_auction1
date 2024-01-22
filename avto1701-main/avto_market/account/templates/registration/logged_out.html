@@ -1,0 +1,51 @@
+{% extends "avto/base.html" %}
+
+{% block content1 %}
+
+<style>
+  .logout-page {
+    background-color: #FFFFFF;
+    padding: 40px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #FFFFFF;
+    width: 50%;
+    margin: 0 auto;
+    box-shadow: 0 0 15px white;
+  }
+
+  .logout-message {
+    color: #000000;
+    margin-bottom: 20px;
+  }
+
+  .back-link {
+    color: #FFFFFF;
+    text-decoration: none;
+    margin-top: 20px;
+    background-color: #000000;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: color 0.3s ease, background-color 0.3s ease;
+  }
+
+  .back-link:hover {
+    color: #000000;
+    background-color: #FFFF00;
+    border: 2px solid black;
+  }
+
+  .container {
+    min-height: 43vh;
+  }
+
+</style>
+
+
+<div class="logout-page">
+  <p class="logout-message">Вы вышли из своего профиля. Спасибо, что использовали наш сайт.</p>
+  <a href="{% url 'account:login' %}" class="back-link">Авторизироваться</a>
+</div>
+{% endblock %}

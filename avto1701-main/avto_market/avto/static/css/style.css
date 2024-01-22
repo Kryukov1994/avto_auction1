@@ -1,0 +1,252 @@
+/* styles.css */
+
+/* Reset styles */
+body, h1, h2, h3, h4, h5, h6, p, ul, li {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #595757;
+  background-image: url("красивая_девушка.jpg");
+  background-size: cover;
+  backdrop-filter: blur(5px);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  min-height: 35vh;
+}
+
+
+header {
+  background-color: #232323;
+  padding: 20px;
+  color: #fff;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+nav ul {
+  list-style: none;
+}
+
+nav ul li {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #fff;
+}
+
+
+/* Обычные стили бургер-меню */
+
+#burger-checkbox {
+  display: none;
+}
+
+.burger-icon {
+  display: none;
+}
+
+.menu {
+  list-style-type: none;
+}
+
+.menu li {
+  margin-bottom: 10px;
+}
+
+
+
+
+
+
+main {
+  margin-top: 20px;
+}
+
+.image {
+  text-align: center;
+}
+
+.image img {
+  max-width: 100%;
+  height: auto;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #333;
+  padding: 20px;
+  color: #fff;
+  text-align: center;
+  margin-top: -80px;
+}
+
+footer p {
+  font-size: 14px;
+}
+
+
+
+
+.card-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.card {
+  width: calc(33.33% - 20px);
+  margin-bottom: 20px;
+  padding: 20px;
+  background-color: #333;
+  border-radius: 8px;
+  box-sizing: border-box;
+  box-shadow: 0 0 15px white;
+}
+
+.card:hover {
+  background-color: rgb(42, 9, 18);
+  width: calc(35.33% - 20px);
+  border: 2px solid white; 
+  box-shadow: 0 0 35px red;
+  
+}
+
+.card a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.card-image img {
+  width: 100%;
+  height: auto;
+  margin-bottom: 15px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.card-details h3 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #bdc55f;
+}
+
+.card-details p {
+  font-size: 14px;
+  color: #fcfcfc;
+  margin-bottom: 10px;
+}
+
+nav ul li a:hover {
+  background-color: white;
+  color: black;
+  padding: 10px;
+  box-shadow: 0 0 7px white;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+
+@media (max-width: 767px) {
+  /* Стили для устройств с шириной экрана до 767px */
+
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #595757;
+    background-image: url("6jpg.jpg");
+    background-size: cover;
+    backdrop-filter: blur(5px);
+  }
+
+
+
+  .container {
+    padding: 10px;
+  }
+  
+  header {
+    padding: 10px;
+  }
+  
+  h1 {
+    font-size: 20px;
+  }
+  
+  .card-container {
+    justify-content: center;
+  }
+  
+  .card {
+    width: calc(50% - 10px);
+  }
+  .card:hover {
+    background-color: initial;
+    width: initial;
+    border: initial;
+    box-shadow: initial;
+  }
+  .image {
+    display: none;
+  }
+
+  footer {
+    display: none; 
+  }
+
+}
+
+
+
+
+/* Стили для отображения бургер-меню на мобильных устройствах */
+@media (max-width: 768px) {
+  .burger-icon {
+    display: block;
+    cursor: pointer;
+    padding: 10px;
+  }
+
+  .burger-icon span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: #000;
+    margin-bottom: 5px;
+  }
+
+  .menu {
+    display: none;
+
+  }
+
+  .menu li {
+    margin-bottom: 20px;
+  }
+
+  /* Скрываем меню при открытии бургер-меню */
+  #burger-checkbox:checked ~ .menu {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+
+
+  
+}

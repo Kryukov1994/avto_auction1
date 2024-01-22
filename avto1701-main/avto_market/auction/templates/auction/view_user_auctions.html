@@ -1,0 +1,80 @@
+{% extends 'avto/base.html' %}
+{% load static %}
+
+
+{% block content1 %} 
+
+<style>
+    .card{
+      background-color: #4d1911;
+    }
+
+    .auction-link {
+      display: inline-block;
+      background-color: black;
+      color: white !important;
+      padding: 10px 20px;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 4px;
+      margin-top: 10px;
+      float: left;
+  }
+
+  .auction-link:hover {
+    background-color: white;
+    color: black !important;
+    border: 3px solid black;
+    font-size: 17px;
+    }
+
+    .container {
+      min-height: 42vh;
+    }
+
+    @media (max-width: 767px) {
+      .card-container {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      
+      .card {
+        width: 100%;
+        margin: 10px;
+      }
+    }
+  
+  </style>
+
+  <div class="card-container">
+    {% for auction in auctions %}
+      <div class="card">
+        <a href="{% url 'auction:auction_detail' auction.id %}">
+          <div class="card-image">
+            <img src="{% if auction.avto.image %}{{ auction.avto.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}" alt="{{ auction.avto.brand }} {{ auction.avto.model }}">
+          </div>
+          <div class="card-details">
+            <h3>{{ auction.avto.brand }}</h3>
+            <p>{{ auction.avto.model }}</p>
+            <p>Год выпуска: {{ auction.avto.year }}</p>
+            <p>Цена: {{ auction.avto.price }}</p>
+            <p>Дата создания: {{ auction.avto.created|date:"F j, Y" }}</p>
+            
+            <p style="color:yellow;font-size: 16px;font-weight: bold;">Стартовая цена: {{ auction.start_price}}</p>
+            
+            <p style="color:yellow;font-size: 16px;font-weight: bold;">Торги заканчиваются: {{ auction.end_time}}</p>
+            
+            
+
+            <a class="auction-link"   href="{% url 'auction:edit_auction' auction.id %}">Изменить аукцион</a>
+
+          </div>
+        </a>
+      </div>
+    {% empty %}
+      <p>Лоты отсутствуют</p>
+    {% endfor %}
+  </div>
+
+{% endblock %}

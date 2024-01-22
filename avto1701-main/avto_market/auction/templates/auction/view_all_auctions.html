@@ -1,0 +1,85 @@
+{% extends 'avto/base.html' %}
+{% load static %}
+
+
+{% block content1 %} 
+
+<style>
+    .card{
+      background-color: #4d1911;
+    }
+    .edit-button {
+      background-color: #000000;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-bottom: 30px;
+    }
+
+    .edit-button:hover {
+      background-color: white;
+      color: black;
+      border: 3px solid black;
+      font-size: 17px;
+    }
+
+    @media (max-width: 767px) {
+      .card-container {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      
+      .card {
+        width: 100%;
+        margin: 10px;
+      }
+    }
+
+  </style>
+
+  <div class="card-container">
+    {% for auction in auctions %}
+      <div class="card">
+       <a href="{% url 'auction:auction_detail' auction.id %}">
+          <div class="card-image">
+            <img src="{% if auction.avto.image %}{{ auction.avto.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}" alt="{{ auction.avto.brand }} {{ auction.avto.model }}">
+          </div>
+          <div class="card-details">
+            <h3>{{ auction.avto.brand }}</h3>
+            <p>{{ auction.avto.model }}</p>
+            <p>Год выпуска: {{ auction.avto.year }}</p>
+            <p>Цена: {{ auction.avto.price }}</p>
+            <p>Дата создания: {{ auction.avto.created|date:"F j, Y" }}</p>
+            
+            <p style="color:yellow;font-size: 16px;font-weight: bold;">Стартовая цена: {{ auction.start_price}}</p>
+            <p style="color:yellow;font-size: 16px;font-weight: bold;">Торги заканчиваются: {{ auction.end_time|date:"Y-m-d, H:i"}}</p>
+
+
+        {% if auction.avto.author != user %}
+            <p style="margin-top: 25px ; color: white;"><a  href="{% url 'auction:create_buyer' auction.id user.id %}"class="edit-button">Сделать ставку</a></p>
+        {% endif %}
+        
+        <p style="margin-top: 25px ; color: white;"><a href="{% url 'auction:comment_create' auction.id user.id %}" class="edit-button">Добавить комментарий</a></p>
+
+        {% if user.is_superuser %}
+          <p style="margin-top: 25px ; color: white;"><a class="edit-button" href="{% url 'auction:winner' auction.id %}">Найти победителя</a></p>
+        {% endif %}
+        {% if user.is_superuser %}
+          <p style="margin-top: 25px ; color: white;"><a class="edit-button" href="{% url 'auction:edit_auction' auction.id %}">Изменить аукцион на правах админа</a></p>
+        {% endif %}
+            
+          </div>
+        </a>
+      </div>
+    {% empty %}
+      <p>Лоты отсутствуют</p>
+    {% endfor %}
+  </div>
+
+{% endblock %}

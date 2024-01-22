@@ -1,0 +1,117 @@
+{% extends 'avto/base.html' %}
+{% load static %}
+
+{% block content1 %}
+  <style>
+    .edit-button {
+      background-color: #000000;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-bottom: 30px;
+    }
+
+    .edit-button:hover {
+      background-color: white;
+      color: black;
+      border: 3px solid black;
+      font-size: 17px;
+    }
+
+    .red-bottom {
+      background-color: #4d1911;;
+      color: yellow;
+      border: 0.5px solid black;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-bottom: 30px;
+    }
+
+    .red-bottom:hover {
+      background-color: yellow;
+      color: black;
+      border: 3px solid black;
+      font-size: 17px;
+      font-weight: bold;
+    }
+
+
+    .container {
+      min-height: 42vh;
+    }
+
+    @media (max-width: 767px) {
+      .card-container {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      
+      .card {
+        width: 100%;
+        margin: 10px;
+      }
+     
+      .red-bottom {
+        background-color: #4d1911;;
+        color: yellow;
+        border: 0.5px solid black;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: bold;
+        cursor: pointer;
+        margin-bottom: 30px;
+      }
+
+
+    }
+
+  </style>
+
+  <p style="margin-bottom: 30px;"><a href="{% url 'avto:new_avto' %}" class="red-bottom">Добавить объявление</a>
+    <a  href="{% url 'auction:view_user_auctions' %}" class="red-bottom" >Мои аукционы</a>
+  
+  </p>
+    
+  
+ 
+
+  <div class="card-container">
+    {% for avto in avtos %}
+      <div class="card">
+        <a href="{% url 'avto:avto_detail' avto.id %}">
+          <div class="card-image">
+            <img src="{% if avto.image %}{{ avto.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}" alt="{{ avto.brand }} {{ avto.model }}">
+          </div>
+          <div class="card-details">
+            <h3>{{ avto.brand }}</h3>
+            <p>{{ avto.model }}</p>
+            <p>Год выпуска: {{ avto.year }}</p>
+            <p>Цена: {{ avto.price }}</p>
+            <p>Дата создания: {{ avto.created|date:"F j, Y" }}</p>
+          </div>
+        </a>
+        <p style="margin-top: 20px ; color: white;"><a href="{% url 'auction:auction_create' avto.id%}" class="edit-button" >Создать аукцион</a></p>
+        <p style="margin-top: 30px ; color: white;"><a href="{% url 'avto:edit_avto' avto.id %}" class="edit-button" >Изменить объявление</a></p>
+        <p style="margin-top: 30px ;color: white;"><a href="{% url 'avto:delete_avto' avto.id %}" class="edit-button">Удалить объявление</a></p>
+        
+      </div>
+    {% empty %}
+      <p>Лоты отсутствуют</p>
+    {% endfor %}
+  </div>
+
+  
+
+{% endblock %}

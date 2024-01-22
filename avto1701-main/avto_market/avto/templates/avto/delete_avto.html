@@ -1,0 +1,94 @@
+{% extends 'avto/base.html' %}
+
+
+{% block content1 %}
+<style>
+  /* CSS стили здесь */
+  .content {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .content h1 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+
+  .content p {
+    color: black;
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+
+  .content form {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #333;
+    padding: 20px;
+  }
+
+  .content label,
+  .content input,
+  .content button {
+    margin-bottom: 10px;
+  }
+
+  .content label {
+    font-weight: bold;
+  }
+
+  .content input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #000000;
+    color: #fff;
+  }
+
+  .content button {
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .content input:hover {
+    background-color: red;
+    color: black;
+    font-size: 14px;
+    font-weight: bold;
+    border: 3px solid black;
+  }
+
+  .content input[type="text"],
+  .content input[type="email"] {
+    border: 1px solid #777;
+    background-color: #fff;
+    color: #000;
+  }
+
+  .container {
+    min-height: 41vh;
+  }
+
+</style>
+</head>
+<body>
+<div class="content">
+  <h1>Удаление объявления</h1>
+  <p>Вы действительно хотите удалить объявление "{{ avto.brand }} {{ avto.model }}"?</p>
+  <form action="{% url 'avto:delete_avto' avto.id %}" method="post">
+    {% csrf_token %}
+    <input type="submit" value="Удалить">
+  </form>
+</div>
+</body>
+</html>
+{% endblock %}

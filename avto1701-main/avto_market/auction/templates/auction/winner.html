@@ -1,0 +1,61 @@
+{% extends 'avto/base.html' %}
+{% load static %}
+
+{% block content1 %}
+
+<style>
+    /* CSS стили здесь */
+    .wrapper {
+        text-align: center;
+        border: 2px solid yellow;
+        background-color: #1c1b14;
+        padding: 20px;
+        margin: 20px auto;
+        width: 500px;
+    }
+
+    h3 {
+        color: yellow;
+        margin: 10px
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    li {
+        margin-bottom: 10px;
+        font-weight: 700;
+        color: yellow;
+    }
+
+    .winner-button {
+        display: inline-block;
+        background-color: #F01C14;
+        color: white;
+        padding: 10px;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+
+    .winner-button:hover {
+        background-color: green;
+    }
+
+</style>
+
+<div class="wrapper">
+    <h3>Участники: </h3>
+    <ul>
+        {% for bidder in bidders %}
+            <li> Предложение: {{ bidder.last_bid_price }} Покупатель:  {{ bidder.user }}</li>
+        {% empty %}
+            <li>No bidders found.</li>
+        {% endfor %}
+
+        <li><a href="{% url 'auction:profile_win' winner %}" class="winner-button">победитель:  {{ winner }}</a></li>
+    </ul>
+</div>
+
+{% endblock %}

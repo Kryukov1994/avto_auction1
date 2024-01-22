@@ -1,0 +1,43 @@
+{% extends "avto/base.html" %}
+
+{% block content1 %}
+  <style>
+    body {
+      background-color: #1a1a1a;
+      color: #ffffff;
+    }
+
+    h1, p {
+      color: #ffffff;
+    }
+
+    a {
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    /* Дополнительные стили для элементов на странице */
+    .my-element {
+      color: #ffffff;
+      background-color: #323232;
+      /* Другие свойства стиля */
+    }
+
+    /* Дополнительные стили для ссылок */
+    .my-link {
+      font-weight: bold;
+      color: yellow;
+    }
+
+    .container {
+      min-height: 42vh;
+    }
+
+  </style>
+
+  <h1>Добро пожаловать, {{ new_user.first_name }}!</h1>
+  <p>
+    Ваша учетная запись была успешно создана.
+    Теперь вы можете <a  class="my-link" href="{% url 'account:login' %}">войти</a>.
+  </p>
+{% endblock %}

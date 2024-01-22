@@ -1,0 +1,60 @@
+{% extends "avto/base.html" %}
+{% load static %} 
+
+
+{% block content1 %}
+    <style>
+        /* Стили для контейнера сообщения */
+        .message-container {
+            background-color: white;
+            color: black;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Стили для заголовка сообщения */
+        .message-container h1 {
+            color: black;
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        /* Стили для списка сообщений */
+        .message-container ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* Стили для элементов списка сообщений */
+        .message-container li {
+            margin-bottom: 10px;
+        }
+
+        /* Стили для последнего элемента списка сообщений */
+        .message-container li:last-child {
+            margin-bottom: 0;
+        }
+
+        .container {
+            min-height: 41vh;
+          }
+
+          
+    </style>
+
+    <div class="message-container">
+        <h1>Сообщение:</h1>
+        <ul>
+            <li>Автор: {{ message.sender }}</li>
+            <li>Получатель: {{ message.recipient }}</li>
+            <li>Содержание: {{ message.text }}</li>
+            {% if message.link %}
+                <li><a style="color:red" href="{{ message.link }}"> ССЫЛКА</a></li>
+            {% endif %}
+            <li>Дата отправки: {{ message.created_at|date:"d.m.Y H:i" }}</li>
+        </ul>
+    </div>
+{% endblock %}

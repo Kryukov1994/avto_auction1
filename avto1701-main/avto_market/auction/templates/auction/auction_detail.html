@@ -1,0 +1,169 @@
+{% extends 'avto/base.html' %}
+{% load static %}
+
+{% block content1 %}
+
+<head>
+    <title>{{ avto.brand }} {{ avto.model }}</title>
+    <style>
+
+
+        .title {
+            color: #bdc55f;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 0 15px white;
+            padding: 0.5%;
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .info {
+            color: #bdc55f;
+            font-size: 16px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            box-shadow: 0 0 15px white;
+            padding: 0.5%;
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .image {
+            max-width: 70%;
+            height: auto;
+            margin-top: 10px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            border: 5px solid black;
+            box-shadow: 0 0 15px white;
+        }
+
+        .auction-link {
+            display: inline-block;
+            background-color: #4d1911;;
+            color: yellow;
+            padding: 10px 20px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 4px;
+            margin-top: 10px;
+            float: left;
+            border: 2px solid black;
+            font-size: 17px;
+        }
+
+        .auction-link:hover {
+            background-color: white;
+            color: black !important;
+            border: 3px solid black;
+            font-size: 18.5px;
+        }
+
+
+        .bid-info {
+            background-color: rgba(71, 10, 12, 0.9);
+            padding: 10px;
+            border: 2px solid black;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 0 15px white;
+            
+        }
+        
+        .comment-info {
+            padding: 10px;
+            border: 2px solid black;
+            background-color: rgba(14, 1, 40, 0.9);
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 0 15px white;
+        }
+        
+        .auction-details {
+            background-color: rgba(0, 128, 0, 0.4);
+            color: yellow;
+            border: 2px solid black;
+            padding: 10px;
+            font-weight: bold;
+            font-size: 18px;
+            box-shadow: 0 0 15px white;
+        }
+
+
+        .bid-price, .bid-date, .comment-date, .comment-text {
+            color: yellow;
+            font-size: 16px;
+            font-weight: bold;
+            
+  
+        }
+
+        .highlight {
+            background-color: #3E0F24;
+        }
+
+    </style>
+</head>
+<body>
+    <div>
+    <h1 class="title">{{ avto.brand }} {{ avto.model }}</h1>
+    <p class="info"><strong>Год выпуска:</strong> <span style="color:white">{{ avto.year }}</style></p>
+    <p class="info"><strong>Цена:</strong> <span style="color:white">{{ avto.price }}</style></p>
+    <p class="info"><strong>Руль:</strong><span style="color:white"> {{ avto.get_steering_display }}</style></p>
+    <p class="info"><strong>Пробег:</strong> <span style="color:white">{{ avto.mileage }}</style></p>
+    <p class="info"><strong>Трансмиссия:</strong><span style="color:white"> {{ avto.get_transmission_display }}</style></p>
+    <p class="info"><strong>Привод:</strong> <span style="color:white">{{ avto.get_drive_display }}</style></p>
+    <p class="info"><strong>Топливо:</strong><span style="color:white"> {{ avto.get_fuel_display }}</style></p>
+    <p class="info"><strong>Дата размещения: </strong><span style="color:white">{{ avto.created|date:"Y-m-d" }}</style></p>
+    {% if avto.description %}
+        <p class="info">Описание: <span style="color:white">{{ avto.description }}</style></p>
+    {% endif %}
+    {% if avto.image %}
+        <img class="image" src="{{ avto.image.url }}" alt="Car Image">
+    {% endif %}
+    
+
+    <p class="auction-details">
+       Стартовая цена: <span style="color:white">{{ auction.start_price }}</style>
+    </p>
+    
+    <p class="auction-details">
+        Окончание аукциона: <span style="color:white"> {{ auction.end_time|date:"Y-m-d, H:i" }}</style>
+    </p>
+
+    
+    {% for buyer in buyers %}
+    {% if buyer.auction == auction %}
+        <div class="bid-info">
+            <p class="bid-price">Последнее предложение: <span style="color:white"> {{ buyer.last_bid_price }}</style></p>
+            <p class="bid-date">Дата ставки: <span style="color:white"> {{ buyer.updated_at|date:"Y-m-d, H:i"}} </style></p>
+        </div>
+    {% endif %}
+    {% empty %}
+        <p>Нет ставок для этого аукциона</p>
+{% endfor %}
+
+
+{% for comment in comments %}
+    {% if comment.auction == auction %}
+        <div class="comment-info {% if comment.author == auction.avto.author %}highlight{% endif %}">
+            <p class="comment-date">Дата комментария: {{ comment.created_at|date:"Y-m-d, H:i" }}</p>
+            <p class="comment-text">{% if comment.author == auction.avto.author %}(От автора) {% endif %}Комментарий: {{ comment.text }}</p>
+        </div>
+    {% endif %}
+    {% empty %}
+        <p>Нет комментариев для этого аукциона</p>
+{% endfor %}
+ 
+    {% if auction.avto.author != user %}
+      <p><a class="auction-link" style="margin: 10px" href="{% url 'auction:create_buyer' auction.id user.id %}" class="edit-button">Сделать ставку</a></p>
+    {% endif %}
+    <a class="auction-link" style="margin: 10px" href="{% url 'auction:comment_create' auction.id user.id %}">Добавить комментарий</a>
+    
+    {% if user.is_superuser %}
+      <a class="auction-link" href="{% url 'auction:winner' auction.id %}">Найти победителя</a>
+    {% endif %}
+
+</body>
+</html>
+
+{% endblock %}

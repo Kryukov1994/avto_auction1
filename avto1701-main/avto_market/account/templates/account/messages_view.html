@@ -1,0 +1,90 @@
+{% extends "avto/base.html" %}
+{% load static %} 
+
+{% block content1 %}
+
+    <style>
+        .inbox {
+            list-style-type: none;
+            margin: 0;
+            padding: 10px;
+            border: 3px solid black;
+            background-color: white;
+            box-shadow: 0 0 15px white;
+        }
+
+        .item {
+            margin-bottom: 10px;
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+        }
+
+        .item:hover {
+            background-color: #4d1911;
+        }
+
+        .item a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 16px;
+        }
+
+        .red-bottom {
+            background-color: #4d1911;;
+            color: yellow;
+            border: 0.5px solid black;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 30px;
+          }
+      
+          .red-bottom:hover {
+            background-color: yellow;
+            color: black;
+            border: 3px solid black;
+            font-size: 17px;
+            font-weight: bold;
+          }
+
+        .container {
+
+            color: black;
+            font-size: 17px;
+            padding: 20px;
+            min-height: 40vh;
+            
+        }
+
+        
+    </style>
+
+    <p style="margin-bottom: 20px ; color: white;"><a href="{% url 'account:send_message' %}" class="red-bottom" >Отправить сообщение</a></p>
+
+    {% if messages %}
+    <div class="container">
+        <ul class="inbox"><h3>Входящие:</h3>
+            {% for message in messages %}
+                {% if not message.sender == request.user %}
+                    <li class="item"><a href="{% url 'account:messages_detail' message.id %}">От: {{ message.sender}} {{message.created_at|date:"Y-m-d"}}</a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        <ul class="inbox"><h3>Отправленные:</h3>
+            {% for message in messages %}
+                {% if message.sender == request.user %}
+                    <li class="item"><a href="{% url 'account:messages_detail' message.id %}">Получатель: {{ message.recipient}}   {{message.created_at|date:"Y-m-d"}}</a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+{% else %}
+    <p>Почтовый ящик пуст</p>
+{% endif %}
+
+{% endblock %}
+

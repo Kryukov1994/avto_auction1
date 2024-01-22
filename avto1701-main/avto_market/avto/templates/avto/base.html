@@ -1,0 +1,77 @@
+{% load static %} 
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Аукцион</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+<body>
+  <header>
+    <nav>
+      <input type="checkbox" id="burger-checkbox">
+      <label for="burger-checkbox" class="burger-icon">
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
+      <ul class="menu">
+        {% if user.is_authenticated %}
+        <li>Привет, {{user.username}}.</li>
+        <li><a href="{% url 'account:profile' %}">Мой профиль</a></li>
+        <li><a href="{% url 'avto:user_avto' %}">Мои объявления</a></li>
+        <li><a href="{% url 'account:messages_view' %}">Мои сообщения</a></li>
+        <li><a href="{% url 'auction:view_all_auctions' %}">Активные аукционы</a></li>
+        <li><a href="{% url 'avto:avto_list' %}">Лоты</a></li>
+        <li><a href="{% url 'account:logout' %}">Выйти</a></li>
+        {% else %}
+        <li><a href="{% url 'account:register' %}">Регистрация</a></li>
+        <li><a href="{% url 'account:login' %}">Авторизироваться</a></li>
+        <li><a href="{% url 'avto:avto_list' %}">Лоты</a></li>
+        <li><a href="{% url 'avto:index' %}">Главная</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <div class="container">
+      {% block content1 %}
+      {% endblock %}
+    </div>
+    <div class="container">
+      {% block content2 %}
+      {% endblock %}
+    </div>
+  </main>
+
+  <footer>
+    <p>© Авто аукцион</p>
+  </footer>
+
+  <script >
+    const burgerCheckbox = document.getElementById('burger-checkbox');
+const menu = document.querySelector('.menu');
+
+// Закрываем меню по клику на ссылку
+menu.addEventListener('click', (e) => {
+  if (e.target.tagName === 'A') {
+    burgerCheckbox.checked = false;
+  }
+});
+
+// Закрываем меню при клике вне меню
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('nav')) {
+    burgerCheckbox.checked = false;
+  }
+});
+
+
+
+  </script>
+</body>
+</html>
+
